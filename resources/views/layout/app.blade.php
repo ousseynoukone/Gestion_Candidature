@@ -56,8 +56,8 @@
 </html>
 
 <script src="{{ asset('build/assets/script.js') }}"></script>
-
-
+<script src="{{ asset('build/assets/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('build/assets/dataTables.bootstrap4.js') }}"></script>
+<script src="{{ asset('build/assets/jquery.dataTables.js') }}"></script>
 <script src="{{ asset('build/assets/jquery-3.6.0.js') }}"></script>
-
 <script src="{{ asset('build/assets/bootstrap.js') }}"></script>
