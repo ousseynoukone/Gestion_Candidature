@@ -151,7 +151,14 @@ class FormationController extends Controller
      */
     public function destroy( $formation)
     {
+
+        $form = Formation::find($formation);
+        $candidat = $form->candidats()->get();
+        $form->candidats()->delete();
+        $candidat->each->delete();
+        
         Formation::destroy($formation);
+
 
         toastr()->warning('Suppression effectuée !');
         return redirect()->route('formations.index');

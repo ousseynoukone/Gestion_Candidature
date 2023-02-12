@@ -26,7 +26,8 @@
     <div class="container mt-5" id="addFormation"    >
 
 
-<div class="card-header bg-white  text-center">Liste des etudiants</div>
+      @if(count($tabAll['candidats'])!=0)
+<div class="card-header bg-white  text-center">Liste des Candidats</div>
 <table class="table table-dark">
   <thead>
         <tr>
@@ -53,14 +54,15 @@
 
       </tbody>
     </table>
-
-  
+@else
+<h4 class="card-header bg-white text-center">Il n'y a pas de candidat</h4>
+@endif
 
 
      
 </div>
 <div class="container ml-4"   hidden id="parametrerFormation">
-
+@if(count($tabAll['formations']) !=0)
 @foreach ($tabAll['formations'] as $index=> $formation    )
 
 
@@ -91,13 +93,17 @@
                         <td>En cours...</td>
                         @endif
                         <td>
-                          
+                          @if (count($formation->candidats)!=0)
                           <div class="form-check">
-                            <input onclick="updateForm({{$formation->id}})" class="form-check-input" type="checkbox" value="" >
-                            <label class="form-check-label" for="">
-                              Démarrer ou arreter la formation
-                            </label>
+                            <input class="btn btn-secondary" value="Démarrer ou arreter la formation" onclick="updateForm({{$formation->id}})" class="form-check-input" type="button" value="" >
+                 
                           </div>
+                          @else
+                          <div class="form">
+                            <h6 class=" text-center">Impossible de démarrer une formation sans candidats</h6>
+  
+                          </div>
+                          @endif
                       
                       </td>
                        
@@ -133,7 +139,7 @@
                             Validé <img height="20px" src="{{asset('img/succes.png') }}" alt="">
                             <td>
                               <div class="form-check">
-                                <input class="form-check-input" onclick="updateRef({{$referentiel->id}})" type="radio" checked disabled name="flexRadioDefault" >
+                                <input class="form-check-input" onclick="updateRef({{$referentiel->id}})" type="radio"  type="radio" checked="checked" disabled name="flexRadioDefault" >
                                 <label class="form-check-label" >
                                   Valider 
                                 </label>
@@ -154,7 +160,6 @@
                         </td>
 
                         
-
 
 
                       </tr>
@@ -226,6 +231,193 @@
 
 </div>
 @endforeach
+@else
+<h4 class="card-header mt-5 mr-5 bg-white text-center">Il n'y a pas de formation</h4>
+@endif
+</div>
+<!-- Statistiques nombres -->
+
+
+<div class="container ml-5 mt-5 " style="  overflow: scroll; height:300px;" hidden id="stats">
+<div class="card">
+
+  @if(count($tabAll['formations'])==0)
+  <h5 class="card-header">Il n'y a pas de formations</h5>
+  @else
+  <h5 class="card-header">Statistiques</h5>
+
+  @foreach ($tabAll['formations'] as $index=> $formation    )
+
+
+  <div class="card mt-5">
+
+    
+              <div class="card-body">
+                <h4 class="card-header text-center">Formation N°{{$index+1}}</h4>
+
+                <table class="table table-dark">
+                  <thead>
+                    <tr>
+                      <th scope="col">#Id</th>
+                      <th scope="col">Nom de la formation</th>
+                      <th scope="col">Etat</th>
+                      <th scope="col">Demarer la formation</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    <tr>
+                      <td>{{$formation->id}}</td>
+                      <td>{{$formation->nom}}</td>
+                      @if($formation->isStarted==0)
+
+                      <td>En attente</td>
+
+                      @else
+                      <td>En cours...</td>
+                      @endif
+                      <td>
+                        @if (count($formation->candidats)!=0)
+                        <div class="form-check">
+                          <input class="btn btn-secondary" value="Démarrer ou arreter la formation" onclick="updateForm({{$formation->id}})" class="form-check-input" type="button" value="" >
+               
+                        </div>
+                        @else
+                        <div class="form">
+                          <h6 class=" text-center">Impossible de démarrer une formation sans candidats</h6>
+
+                        </div>
+                        @endif
+                    
+                    </td>
+                     
+                    </tr>
+
+
+                  </tbody>
+                </table>
+
+              </div>
+@if (count($formation->candidats)!=0)
+  
+
+              @foreach ($formation->candidats as $index =>$candidat)
+              <?php
+               $val = $index+1 
+                 ?>
+
+              @endforeach
+  @else 
+
+  <?php 
+    $val = 0 ;
+
+  ?>
+
+
+  @endif
+
+
+    <div class="row">
+        <div class="ml-4 form-control col-md-4">Nombre de candidats de la formation : </div>
+          <div class="ml-2">
+            <input type="number" readonly value="{{$val}}" class="form-control" id="nmbrParFormation" placeholder="Password">
+          </div>
+    </div>
+
+</div>
+@endforeach
+
+
+
+
+@foreach ($tabAll['referentiels'] as $index=> $referentiel    )
+
+<div class="card mt-5">
+
+  
+            <div class="card-body">
+              <h4 class="card-header text-center">Réferentiel N°{{$index+1}}</h4>
+
+              <table class="table table-dark">
+                <thead>
+                  <tr>
+                    <th scope="col">#Id</th>
+                    <th scope="col">Nom de la referentiel</th>
+                    <th scope="col">Validation</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  
+                  <tr>
+                    <td>{{$referentiel->id}}</td>
+                    <td>{{$referentiel->libelle}}</td>
+                    @if($referentiel->validated)
+
+                    <td>Oui</td>
+
+                    @else
+                    <td>Non</td>
+                    @endif
+
+                   
+                  </tr>
+
+
+                </tbody>
+              </table>
+
+            </div>
+      
+@if (count($referentiel->formations)!=0)
+
+@foreach ($referentiel->formations as $index => $formation)
+
+            <?php 
+
+            $val = $index+1;
+
+            
+            ?>
+                
+@endforeach
+
+@else
+
+<?php 
+$val = 0 ;
+
+?>
+
+
+@endif
+
+
+
+  <div class="row">
+      <div class="ml-4 form-control col-md-4">Nombre de  formation du referentiel  : </div>
+        <div class="ml-2">
+          <input type="number" readonly value="{{$val}}" class="form-control" id="nmbrParFormation" placeholder="Password">
+        </div>
+  </div>
+
+</div>
+@endforeach
+
+
+
+
+
+
+
+
+
+
+
+
+
+@endif
+</div>
 
 </div>
 
@@ -324,7 +516,6 @@ function updateForm(id){
 
 function updateRef(id){
 
-  console.log("hihi")
   $.ajax({
         type:"GET",
         url: "referentiels/update/"+id,
@@ -358,6 +549,7 @@ function updateForm(id){
  function load0(){
   document.getElementById("addFormation").removeAttribute("hidden")
   document.getElementById("parametrerFormation").setAttribute("hidden","")
+  document.getElementById("stats").setAttribute("hidden","")
   
 
  }
@@ -374,10 +566,13 @@ function updateForm(id){
   console.log(document.getElementById("parametrerFormation").removeAttribute("hidden"))
 
   document.getElementById("addFormation").setAttribute("hidden","")
+  document.getElementById("stats").setAttribute("hidden","")
 
  }
 
  function load2(){
+  document.getElementById("stats").removeAttribute("hidden")
+
   document.getElementById("addFormation").setAttribute("hidden","")
   document.getElementById("parametrerFormation").setAttribute("hidden","")
 

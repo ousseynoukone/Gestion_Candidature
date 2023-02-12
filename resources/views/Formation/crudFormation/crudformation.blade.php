@@ -54,7 +54,7 @@
         
                   <div class="form-group">
                     <label for="exampleInputEmail1"> Description </label>
-                    <input type="text"  name="description" required pattern="^[a-zA-Z]+[a-zA-Z0-9\s]*$"  class="form-control">
+                    <input type="text"  name="description" required pattern="^[a-zA-Z]+[a-zA-Z0-9\s']*$"  class="form-control">
                   </div>
 
                   <label for="exampleInputEmail1">Referentiel</label>

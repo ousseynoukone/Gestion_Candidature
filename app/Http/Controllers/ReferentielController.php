@@ -117,8 +117,14 @@ class ReferentielController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy( $referentiel)
-    {
+    {   
+        $ref = Referentiel::find($referentiel);
+        $formation = $ref->formations()->get();
+        $ref->formations()->delete();
+        $formation->each->delete();
+
         Referentiel::destroy($referentiel);
+
 
         toastr()->warning('Suppression effectuée !');
         return redirect()->route('referentiels.index');

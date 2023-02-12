@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Candidat;
 use App\Models\Formation;
 use App\Models\FormationCandidat;
+use App\Models\Referentiel;
 use Illuminate\Http\Request;
 use PhpParser\Node\Stmt\Foreach_;
 
@@ -17,13 +18,17 @@ class FormationCandidatController extends Controller
      */
     public function index()
     {
-        $formations = Formation::with(['referentiels','referentiels.types','candidats'] )->get();
+        $formations = Formation::with(['referentiels','referentiels.types','candidats','referentiels.formations'] )->get();
+        $referentiel = Referentiel::with('formations')->get();
     
         $tabAll = [
             'formations' => $formations,
-            'candidats' => Candidat::all()
+            'candidats' => Candidat::all(),
+            'referentiels' => $referentiel,
+
+
         ];
-        
+
 
 
 
