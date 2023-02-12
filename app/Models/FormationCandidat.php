@@ -5,19 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Type extends Model
+class FormationCandidat extends Model
 {
     use HasFactory;
-
     public $timestamps = false ;
+    protected $table = "candidat_formation";
 
     protected $fillable = [
-        'libelle',
-
+        'formation_id',
+        'candidat_id'
     ] ;
-
-    public function referentiels()
-    {
-        return $this->hasMany(Referentiel::class,"type_id");
-    }
 }

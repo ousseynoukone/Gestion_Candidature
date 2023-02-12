@@ -110,6 +110,39 @@ class FormationController extends Controller
     
     }
 
+    public function updateStart( $id)
+    {
+
+        $f = Formation::find($id);
+        $f1 = Formation::find($id)->referentiels;
+
+
+         if($f1[0]->validated==0 ) {
+            toastr()->error("Echec , veuillez d'abords valider le referentiel de cette formation ! ","Referentiel non validé", [ 'timeOut'=> 10000]);
+            return 0 ;
+         }else{
+            if($f->isStarted==0){
+                $f->isStarted = true;
+                toastr()->success('Formation demarrée ! ');
+    
+            }else{
+                $f->isStarted = false;
+                toastr()->success('Formation cloturée ! ');
+            }
+    
+            $f->save();
+
+         }
+
+
+
+
+     
+  
+        return 1;
+    
+    }
+
     /**
      * Remove the specified resource from storage.
      *

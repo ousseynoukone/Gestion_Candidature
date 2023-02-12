@@ -67,3 +67,54 @@
 
 
   }
+
+#sidebar{
+  background-color: black;
+  margin-top: 5% !important;
+  min-width: 250px;
+  max-width: 250px;
+  height: 40%; /* Full-height: remove this if you want "auto" height */
+  width: 160px; /* Set the width of the sidebar */
+  position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+  z-index: 1; /* Stay on top */
+  top: 0; /* Stay at the top */
+  left: 0;
+  background-color: #111; /* Black */
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 20px;
+
+}
+
+
+
+.content{
+  min-height: 100vh;
+  width:100%;
+}
+
+hr.h-color{
+  background-color: #eee;
+
+}
+
+.list-group-item{
+  background: black;
+
+  color: #ddc1a0;
+
+}
+
+.list-group-item:hover{
+  background-color: #ddc1a0;
+  color: black;
+
+
+}
+
+
+
+.list-group-item.active {
+  background-color:rgb(255, 255, 255) ;
+  color: black;
+  border: none;
+}

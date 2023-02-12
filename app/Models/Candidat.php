@@ -23,7 +23,7 @@ class Candidat extends Model
     ];
 
     public function formations(){
-        return $this->hasMany(Formation::class);
+        return $this->belongsToMany(Formation::class);
     }
 
 }

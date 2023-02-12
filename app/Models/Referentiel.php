@@ -23,6 +23,6 @@ class Referentiel extends Model
     }
 
     public function types(){
-        return $this->hasOne(Type::class);
+        return $this->belongsTo(Type::class,"type_id");
     }
 }

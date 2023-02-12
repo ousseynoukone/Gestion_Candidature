@@ -97,6 +97,19 @@ class ReferentielController extends Controller
         return 1;  
       }
 
+
+      public function updateValidated( $id)
+      {
+  
+          $r = Referentiel::find($id); 
+        $r->validated = true;
+          $r->save();
+
+          toastr()->success('Referentiel validé ! ');    
+          return compact('r');
+      
+      }
+
     /**
      * Remove the specified resource from storage.
      *
