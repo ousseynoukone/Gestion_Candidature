@@ -1,15 +1,17 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Candidat;
 use App\Models\Formation;
 use App\Models\FormationCandidat;
 use App\Models\Referentiel;
+use App\Models\Type;
 use Illuminate\Http\Request;
-use PhpParser\Node\Stmt\Foreach_;
+use Illuminate\Support\Facades\DB;
 
-class FormationCandidatController extends Controller
+use function PHPSTORM_META\map;
+
+class JsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,24 +20,30 @@ class FormationCandidatController extends Controller
      */
     public function index()
     {
-        $formations = Formation::with(['referentiels','referentiels.types','candidats','referentiels.formations'] )->get();
-        $referentiel = Referentiel::with('formations')->get();
-    
-        $tabAll = [
-            'formations' => $formations,
-            'candidats' => Candidat::all(),
-            'referentiels' => $referentiel,
 
+                    $types = Type::with(['referentiels.formations'])->get();
 
-        ];
+                    $counts = [];
+                    foreach ($types as $type) {
+                        $count = 0;
 
+                        foreach ($type->referentiels as $referentiel) {
+                            $count += $referentiel->formations->count();
+                        }
+                        $counts[] = [
+                            'libelle' => $type->libelle,
+                            'count' => $count,
+                        ];
+                    }
+         
 
+        return( [
+            'formations'=>Formation::all(),
+            'types'=>$counts,
+            'candidats' =>Candidat::all(),
 
-
-    
-        return view('Accueil.index', compact('tabAll'));
+        ]);
     }
-    
 
     /**
      * Show the form for creating a new resource.
@@ -44,7 +52,7 @@ class FormationCandidatController extends Controller
      */
     public function create()
     {
-        return Formation::all();
+        //
     }
 
     /**
@@ -55,11 +63,7 @@ class FormationCandidatController extends Controller
      */
     public function store(Request $request)
     {
-        FormationCandidat::create($request->all());
-        toastr()->success('Enregistrement réussi ! ');
-
-        return redirect()->route('fcs.index');
-        
+        //
     }
 
     /**
@@ -68,13 +72,10 @@ class FormationCandidatController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($fcs)
+    public function show($id)
     {
-
-           return  Candidat::find($fcs)->formations ;
-        
+        //
     }
-
 
     /**
      * Show the form for editing the specified resource.
@@ -84,7 +85,7 @@ class FormationCandidatController extends Controller
      */
     public function edit($id)
     {
-        
+        //
     }
 
     /**

@@ -3,6 +3,7 @@
 use App\Http\Controllers\CandidatController;
 use App\Http\Controllers\FormationCandidatController;
 use App\Http\Controllers\FormationController;
+use App\Http\Controllers\JsController;
 use App\Http\Controllers\ReferentielController;
 use App\Http\Controllers\TypeController;
 use App\Models\Candidat;
@@ -28,6 +29,7 @@ Route::get('/basic', function () {
 
 Route::get('formations/update/{id}', [FormationController::class, 'updateStart']);
 Route::get('referentiels/update/{id}', [ReferentielController::class, 'updateValidated']);
+Route::get('jscontroller', [JsController::class, 'index']);
 
 
 

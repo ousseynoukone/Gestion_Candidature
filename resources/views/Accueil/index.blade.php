@@ -238,8 +238,8 @@
 <!-- Statistiques nombres -->
 
 
-<div class="container ml-5 mt-5 " style="  overflow: scroll; height:300px;" hidden id="stats">
-<div class="card">
+<div class="container ml-5 mt-5 " hidden id="stats" >
+<div class="card" style="  overflow: scroll; height:300px;" >
 
   @if(count($tabAll['formations'])==0)
   <h5 class="card-header">Il n'y a pas de formations</h5>
@@ -419,7 +419,35 @@ $val = 0 ;
 @endif
 </div>
 
+<div class="card mt-5">
+  <div>
+    <h3 class="card-header text-center">Graphiques</h3>
+    <div class="card-body col-md-8">
+      <h5 class="card-header">Repartition total  des candidats par sexe</h5>
+
+      <canvas id="graphique1" role="img" aria-label="chart"></canvas>
+
+    </div>
+
+    <div class="card-body col-md-8">
+      <h5 class="card-header">Repartition   des formations par Type</h5>
+
+      <canvas id="graphique2" role="img" aria-label="chart"></canvas>
+
+    </div>
+
+
+    <div class="card-body col-md-8">
+      <h5 class="card-header">Graphe representant les tranches d'ages</h5>
+
+      <canvas id="graphique3" role="img" aria-label="chart"></canvas>
+
+    </div>
+     </div>
 </div>
+
+</div>
+
 
     </div>
 
@@ -493,14 +521,13 @@ $val = 0 ;
 
 
 
-
-
 <script src="{{ asset('build/assets/jquery-3.6.0.js') }}"></script>
+<script src="{{ asset('build/assets/chart.min.js') }}"></script>
 
 <script>
 
 
-
+//Mettre a jour la champs isStarted de formation
 function updateForm(id){
   $.ajax({
         type:"GET",
@@ -514,6 +541,7 @@ function updateForm(id){
 
 }
 
+//mettre a jour le champs Validated de referentiel
 function updateRef(id){
 
   $.ajax({
@@ -531,18 +559,6 @@ function updateRef(id){
 
 
 
-function updateForm(id){
-  $.ajax({
-        type:"GET",
-        url: "formations/update/"+id,
-
-        success: function(data){
-          window.location.replace("/");
-
-        }
-      })
-
-}
 
 
 
@@ -583,8 +599,7 @@ function updateForm(id){
 
  function ajoutFormation(id){
 
-  var form 
-  var allForm
+
 
 document.getElementById("btnModal").click()
 document.getElementById("candidatID").value=id
@@ -623,18 +638,231 @@ $.ajax({
     });
   }
 });
+}
+
+//Graphiques
+$.ajax({
+      url: "jscontroller",
+      type: 'GET',
+      dataType: 'json',
+
+      success: function(data) {
+
+        graphique(data)
 
 
+      }
+      
+      
+    })
+
+
+
+//Les fonctuions pour les differents graphiques 
+function graphique(data) {
+
+  const charBar = document.getElementById("graphique1");
+  const charBar2 = document.getElementById("graphique2");
+  const charBar3 = document.getElementById("graphique3");
+  const candidat = data['candidats']
+
+  const formationParType = data['types']
+
+  EnfantArray = []
+  AdolescentsArray = []
+  AdultesArray = []
+  AinesArray = []
+
+candidat.forEach(c => {
+  if(c.age>=0 && c.age <= 14)
+  EnfantArray.push(c.age)
+  else if(c.age>=15 && c.age <= 24)
+  AdolescentsArray.push(c.age)
+  else if(c.age>=25 && c.age <= 64)
+  AdultesArray.push(c.age)
+  else
+  AinesArray.push(c.age)  
+   
+});
+
+var trancheAgeData  = [
+  {
+    "libelle"  : "Enfants",
+    "age" : EnfantArray
+  },
   
+  {
+    "libelle"  : "Adolescents",
+    "age" : AdolescentsArray
+  },
+
+  {
+    "libelle"  : "Adultes",
+    "age" : AdultesArray
+  },
+  
+  {
+    "libelle"  : "Aînés",
+    "age" : AinesArray
+  }
+]
 
 
 
+
+
+
+
+
+  let nmbrSexeHomme = 0
+  let nmbrSexeFemme  = 0
+
+  let tabType = []
+  let tabNombre
+  candidat.forEach(f => {
+
+    if(f.sexe=="Homme")
+      nmbrSexeHomme+=1
+    else  
+      nmbrSexeFemme+=1
+    
+  });
+
+
+
+
+
+
+
+
+
+
+
+
+//conf 1
+
+datas = {
+      labels  : ["Homme" , "Femme"],
+      datasets:[{
+          label: 'Repartition par sexe',
+
+          data : [nmbrSexeHomme,nmbrSexeFemme],
+          backgroundColor : [
+            "red  ",
+            "blue",
+          ]
+      }]  
+    }
+
+  options =  {
+    scales: {
+        yAxes: [{
+            ticks: {
+                beginAtZero: true
+            }
+        }]
+    }
 }
 
 
 
 
-</script>
 
+//charts 1
+
+  if (charBar) {
+  const chart = new Chart(charBar,{
+    type : "bar",
+    data: datas,
+    options: options,
+  });
+}
+
+
+//charts 2
+
+
+if (charBar2) {
+  //couleur en fonction du nombre de types
+  const couleur = formationParType.map(() => {
+  const r = Math.floor(Math.random() * 256);
+  const g = Math.floor(Math.random() * 256);
+  const b = Math.floor(Math.random() * 256);
+  return `rgb(${r}, ${g}, ${b})`;
+})
+
+
+
+  const chart = new Chart(charBar2,{
+    type: 'bar',
+  data: {
+    labels: formationParType.map(type => type['libelle']),
+    datasets: [{
+      label: 'Nombre de formation',
+      data: formationParType.map(type => type.count),
+      backgroundColor: couleur
+    }]
+  },
+  options: {
+    scales: {
+        yAxes: [{
+            ticks: {
+                beginAtZero: true
+            }
+        }]
+    }
+  }
+  });
+}
+
+//chart 3
+//charts 2
+
+
+if (charBar3) {
+  //couleur en fonction du nombre de types
+  const couleur = trancheAgeData.map(() => {
+  const r = Math.floor(Math.random() * 256);
+  const g = Math.floor(Math.random() * 256);
+  const b = Math.floor(Math.random() * 256);
+  return `rgb(${r}, ${g}, ${b})`;
+})
+
+  const chart = new Chart(charBar3,{
+    type: 'pie',
+  data: {
+    labels: trancheAgeData.map(tr => tr.libelle),
+    datasets: [{
+      label: "Tranche d'age",
+      data:trancheAgeData.map(tr=>tr.age.length) ,
+      backgroundColor: couleur
+    }]
+  },
+  options: {
+    scales: {
+        yAxes: [{
+            ticks: {
+                beginAtZero: true
+            }
+        }]
+    }
+  }
+  });
+}
+
+
+
+
+
+
+
+  
+}
+
+
+
+
+
+</script>
 
 @endsection

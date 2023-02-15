@@ -12,7 +12,9 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
+        "chart.js": "^4.2.1",
         "cross-env": "^7.0.3",
-        "sweetalert2": "^11.7.1"
+        "sweetalert2": "^11.7.1",
+        "vue": "^3.2.47"
     }
 }

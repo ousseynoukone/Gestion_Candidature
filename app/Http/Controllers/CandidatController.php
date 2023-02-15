@@ -49,7 +49,8 @@ class CandidatController extends Controller
   
             Candidat::create($request->all());
 
-        
+            toastr()->success('Candidat(e) ajouté(e) avec sucess!');
+
 
         return redirect()->route('candidats.create');
     }
