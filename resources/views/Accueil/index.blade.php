@@ -421,15 +421,15 @@ $val = 0 ;
 
 <div class="card mt-5">
   <div>
-    <h3 class="card-header text-center">Graphiques</h3>
-    <div class="card-body col-md-8">
-      <h5 class="card-header">Repartition total  des candidats par sexe</h5>
+    <h3 class="card-header text-center ">Graphiques</h3>
+    <div class="card-body col-md-10  ">
+      <h5 class="card-header ">Repartition total  des candidats par sexe</h5>
 
       <canvas id="graphique1" role="img" aria-label="chart"></canvas>
 
     </div>
 
-    <div class="card-body col-md-8">
+    <div class="card-body col-md-10  ">
       <h5 class="card-header">Repartition   des formations par Type</h5>
 
       <canvas id="graphique2" role="img" aria-label="chart"></canvas>
@@ -437,10 +437,17 @@ $val = 0 ;
     </div>
 
 
-    <div class="card-body col-md-8">
+    <div class="card-body col-md-10  ">
       <h5 class="card-header">Graphe representant les tranches d'ages</h5>
 
       <canvas id="graphique3" role="img" aria-label="chart"></canvas>
+
+    </div>
+
+    <div class="card-body col-md-10  ">
+      <h5 class="card-header">Graphe representant le statistique des formations (en cours, en attente)</h5>
+
+      <canvas id="graphique4" role="img" aria-label="chart"></canvas>
 
     </div>
      </div>
@@ -664,9 +671,32 @@ function graphique(data) {
   const charBar = document.getElementById("graphique1");
   const charBar2 = document.getElementById("graphique2");
   const charBar3 = document.getElementById("graphique3");
+  const charBar4 = document.getElementById("graphique4");
   const candidat = data['candidats']
-
   const formationParType = data['types']
+  const formation = data['formations']
+
+  //pour graphe 4
+  FormationEnCours = 0 
+  FormationEnAttente = 0
+  formation.forEach(f => {
+    if(f.isStarted)
+    {
+      FormationEnCours+=1
+    }else{
+      FormationEnAttente+=1
+    }
+    
+  });
+  tabStatFormation=[
+    FormationEnCours,
+    FormationEnAttente
+  ]
+
+
+
+
+
 
   EnfantArray = []
   AdolescentsArray = []
@@ -710,10 +740,6 @@ var trancheAgeData  = [
 
 
 
-
-
-
-
   let nmbrSexeHomme = 0
   let nmbrSexeFemme  = 0
 
@@ -727,14 +753,6 @@ var trancheAgeData  = [
       nmbrSexeFemme+=1
     
   });
-
-
-
-
-
-
-
-
 
 
 
@@ -816,9 +834,6 @@ if (charBar2) {
 }
 
 //chart 3
-//charts 2
-
-
 if (charBar3) {
   //couleur en fonction du nombre de types
   const couleur = trancheAgeData.map(() => {
@@ -851,12 +866,33 @@ if (charBar3) {
 }
 
 
+//charts 4
+if (charBar4) {
+  const chart = new Chart(charBar4,{
+    type: 'bar',
+  data: {
+    labels: ['En cours' , 'En attente'],
+    datasets: [{
+      label: "Formations encours et en attente",
+      data:tabStatFormation ,
+      backgroundColor:[
+        'red',
+        'purple'
+      ],
+    }]
+  },
+  options: {
+    scales: {
+        yAxes: [{
+            ticks: {
+                beginAtZero: true
+            }
+        }]
+    }
+  }
+  });
+}
 
-
-
-
-
-  
 }
 
 
