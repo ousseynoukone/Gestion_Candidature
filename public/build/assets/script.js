@@ -188,7 +188,7 @@ document.getElementById("libelle").addEventListener("click", function() {
 document.getElementById("libelle").addEventListener("input", function() {
 
   var input = this.value;
-  var regex = /^[a-zA-Z]+[a-zA-Z0-9\s]*$/;
+  var regex = /^[a-zA-ZÀ-ÖØ-öø-ÿ]+[a-zA-Z0-9\sÀ-ÖØ-öø-ÿ]*$/;
   if (!regex.test(input)) {
     this.value = input.substr(0, input.length - 1);
   }
@@ -309,7 +309,7 @@ for (let i = 0; i < elements.length; i++) {
     }
 
     var input = this.value;
-    var regex = /^[a-zA-Z]+[a-zA-Z0-9\s]*$/;
+    var regex = /^[a-zA-ZÀ-ÖØ-öø-ÿ]+[a-zA-Z0-9\sÀ-ÖØ-öø-ÿ]*$/;
     if (!regex.test(input)) {
       this.value = input.substr(0, input.length - 1);
     }

@@ -44,7 +44,7 @@
                             <div class="card-header text-center  " >Ajout</div>
                   <div class="form-group">
                     <label for="exampleInputEmail1">libelle</label>
-                    <input type="text"  name="libelle" required pattern="^[a-zA-Z]+[a-zA-Z0-9\s]*$"  class="form-control">
+                    <input type="text"  name="libelle" required pattern="^[a-zA-ZÀ-ÖØ-öø-ÿ]+[a-zA-Z0-9\sÀ-ÖØ-öø-ÿ]*$"  class="form-control">
                   </div>
                 
                 <div class="row  align-items-center mt-2 modal-footer">
@@ -170,7 +170,7 @@
                             <div class="card-header text-center ">Mettre-a-jour un type</div>
                   <div class="form-group" >
                     <label for="exampleInputEmail1">Libelle</label>
-                    <input type="text" readonly id="libelle" name="libelle" required pattern="^[a-zA-Z]+[a-zA-Z0-9\s]*$"  title="Le libelle ne peut contenir que des  lettres et espaces" class="form-control">
+                    <input type="text" readonly id="libelle" name="libelle" required pattern="^[a-zA-ZÀ-ÖØ-öø-ÿ]+[a-zA-Z0-9\sÀ-ÖØ-öø-ÿ]*$"  title="Le libelle ne peut contenir que des  lettres et espaces" class="form-control">
                   </div>
 
               
