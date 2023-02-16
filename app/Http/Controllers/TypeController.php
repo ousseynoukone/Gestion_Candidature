@@ -95,13 +95,23 @@ class TypeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy( $type)
-    {
-        Type::destroy($type);
+    {        
+        $type = Type::find($type);
+
+        // Supprimer les formations liées au type
+        foreach ($type->referentiels as $referentiel) {
+            $referentiel->formations()->delete();
+        }
+    
+        // Supprimer le type
+        $type->delete();
+    
         toastr()->warning('Suppression effectuée !');
     
         return redirect()->route('types.index');
     
     
     
-              }
+    }
+
 }
