@@ -12,12 +12,12 @@
             <div class="card-header text-center ">Mettre-a-jour un candidat</div>
   <div class="form-group">
     <label for="exampleInputEmail1">Nom</label>
-    <input type="text" value="{{$c->nom}}" name="nom" required pattern="[\p{L}\s]+" title="Le nom ne peut contenir que des  lettres et espaces" class="form-control">
+    <input type="text" value="{{$c->nom}}" name="nom" required pattern="^[a-zA-ZÀ-ÖØ-öø-ÿ]+[a-zA-Z0-9\sÀ-ÖØ-öø-ÿ]*$" title="Le nom ne peut contenir que des  lettres et espaces" class="form-control">
   </div>
 
   <div class="form-group">
     <label for="exampleInputEmail1">Prenom</label>
-    <input type="text" value="{{$c->prenom}}"  name="prenom" required pattern="[\p{L}\s]+" title="Le nom ne peut contenir que des lettres et espaces" class="form-control">
+    <input type="text" value="{{$c->prenom}}"  name="prenom" required pattern="^[a-zA-ZÀ-ÖØ-öø-ÿ]+[a-zA-Z0-9\sÀ-ÖØ-öø-ÿ]*$" title="Le nom ne peut contenir que des lettres et espaces" class="form-control">
   </div>
 
   <div class="form-group">

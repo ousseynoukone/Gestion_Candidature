@@ -154,10 +154,10 @@ class FormationController extends Controller
 
         $form = Formation::find($formation);
         $candidat = $form->candidats()->get();
-        $form->candidats()->delete();
-        $candidat->each->delete();
-        
-        Formation::destroy($formation);
+      //  $form->candidats()->delete();
+      //  $candidat->each->delete();
+        $form->candidats()->detach();     
+        $form->delete();
 
 
         toastr()->warning('Suppression effectuée !');

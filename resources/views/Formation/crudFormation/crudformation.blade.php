@@ -45,7 +45,7 @@
                             <div class="card-header text-center  " >Ajouter une formation</div>
                   <div class="form-group">
                     <label for="exampleInputEmail1"> Nom </label>
-                    <input type="text"  name="nom" required pattern="^[a-zA-Z]+[a-zA-Z0-9\s]*$"  class="form-control">
+                    <input type="text"  name="nom" required pattern="^[a-zA-ZÀ-ÖØ-öø-ÿ]+[a-zA-Z0-9\sÀ-ÖØ-öø-ÿ]*$"  class="form-control">
                   </div>
                   <div class="form-group">
                     <label for="exampleInputEmail1"> Duree </label>
@@ -54,7 +54,7 @@
         
                   <div class="form-group">
                     <label for="exampleInputEmail1"> Description </label>
-                    <input type="text"  name="description" required pattern="^[a-zA-Z]+[a-zA-Z0-9\s']*$"  class="form-control">
+                    <input type="text"  name="description" required pattern="^[a-zA-ZÀ-ÖØ-öø-ÿ]+[a-zA-Z0-9\sÀ-ÖØ-öø-ÿ]*$"  class="form-control">
                   </div>
 
                   <label for="exampleInputEmail1">Referentiel</label>
@@ -219,7 +219,7 @@
 
                   <div class="form-group" >
                     <label for="exampleInputEmail1">Nom</label>
-                    <input type="text"   id="nom" name="nom" required pattern="^[a-zA-Z]+[a-zA-Z0-9\s]*$"   class="form-control control">
+                    <input type="text"   id="nom" name="nom" required pattern="^[a-zA-ZÀ-ÖØ-öø-ÿ]+[a-zA-Z0-9\sÀ-ÖØ-öø-ÿ]*$"   class="form-control control">
                   </div>
 
                   <div class="form-group" >
@@ -232,7 +232,7 @@
 
                   <div class="form-group">
                     <label for="exampleInputEmail1"> Description </label>
-                    <input type="text"  id="description" name="description" required pattern="^[a-zA-Z]+[a-zA-Z0-9\s]*$"  class="form-control control">
+                    <input type="text"  id="description" name="description" required pattern="^[a-zA-ZÀ-ÖØ-öø-ÿ]+[a-zA-Z0-9\sÀ-ÖØ-öø-ÿ]*$"  class="form-control control">
                   </div>
 
                   <label for="exampleInputEmail1">Referentiel</label>
