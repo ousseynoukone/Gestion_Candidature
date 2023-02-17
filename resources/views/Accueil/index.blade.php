@@ -729,12 +729,8 @@ var trancheAgeData  = [
   {
     "libelle"  : "Adultes",
     "age" : AdultesArray
-  },
-  
-  {
-    "libelle"  : "Aînés",
-    "age" : AinesArray
   }
+
 ]
 
 
