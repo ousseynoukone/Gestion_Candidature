@@ -73,7 +73,7 @@
 
                   <div class="form-group">
                     <label for="exampleInputEmail1"> Date de debut </label>
-                    <input type="date"  name="date_debut" required class="form-control">
+                    <input type="datetime-local"  name="date_debut" required class="form-control">
                   </div>
         
         
@@ -242,7 +242,7 @@
 
                   <div class="form-group">
                     <label for="exampleInputEmail1"> Date de debut </label>
-                    <input type="date"  id="dateDebut" name="date_debut" required  class="form-control ">
+                    <input type="datetime-local"  id="dateDebut" name="date_debut" required  class="form-control ">
                   </div>
                 
                 <div class="row  align-items-center mt-2">

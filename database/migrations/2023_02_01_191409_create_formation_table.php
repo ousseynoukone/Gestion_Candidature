@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedInteger('duree');
             $table->string('description');
             $table->boolean('isStarted')->default(false);
-            $table->date('date_debut');
+            $table->dateTime('date_debut');
 
             
         });
