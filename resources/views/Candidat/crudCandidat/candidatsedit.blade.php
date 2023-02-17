@@ -27,7 +27,7 @@
 
   <div class="form-group">
     <label for="exampleInputEmail1">Age</label>
-    <input type="number"value="{{$c->age}}"  name="age" min="5" max="90" required pattern="^[0-9]+$" title="Que les chiffres sont acceptés" class="form-control">
+    <input type="number"value="{{$c->age}}"  name="age" min="5" max="35" required pattern="^[0-9]+$" title="Que les chiffres sont acceptés" class="form-control">
   </div>
   
   <label for="form-select">Niveau d'etude</label>
