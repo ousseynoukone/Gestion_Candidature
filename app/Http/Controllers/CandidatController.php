@@ -107,8 +107,19 @@ class CandidatController extends Controller
     public function destroy($candidat)
     {
 
+    $c = Candidat::find($candidat);
 
-    Candidat::destroy($candidat);
+    foreach ($c->formations as  $f) {
+        if(count($f->candidats)==1){
+
+            $f->isStarted = false;
+            $f->save();
+
+        }
+
+    }
+
+    $c->delete();
     toastr()->warning('Suppression effectuée !');
 
     return redirect()->route('candidats.index');
