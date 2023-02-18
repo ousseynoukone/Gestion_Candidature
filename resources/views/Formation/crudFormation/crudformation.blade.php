@@ -236,7 +236,7 @@
                   </div>
 
                   <label for="exampleInputEmail1">Referentiel</label>
-                  <select  class="form-select form-group " id="referentiel" name="referentiel_id" required>
+                  <select  class="form-select form-group " id="referentiel" name="referentiel_id" disabled>
 
                   </select>
 
