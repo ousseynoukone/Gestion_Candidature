@@ -869,7 +869,7 @@ if (charBar4) {
   data: {
     labels: ['En cours' , 'En attente'],
     datasets: [{
-      label: "Formations en cours et en attente",
+      label: 'Formation',
       data:tabStatFormation ,
       backgroundColor:[
         'red',
