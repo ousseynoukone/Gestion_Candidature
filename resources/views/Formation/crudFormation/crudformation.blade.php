@@ -224,7 +224,7 @@
 
                   <div class="form-group" >
                     <label for="exampleInputEmail1">Durée</label>
-                    <input type="number"   step="0.01" min="1" step="0.01" id="duree"  name="duree" required  class="form-control control">
+                    <input type="number"   step="0.01" min="1" step="0.01" id="duree"  name="duree" required  class="form-control">
                   </div>
 
 
