@@ -9,10 +9,10 @@ class FormationCandidat extends Model
 {
     use HasFactory;
     public $timestamps = false ;
-    protected $table = "candidat_formation";
+    protected $table = "user_formation";
 
     protected $fillable = [
         'formation_id',
-        'candidat_id'
+        'user_id'
     ] ;
 }

@@ -6,6 +6,7 @@ use App\Models\Formation;
 use App\Models\FormationCandidat;
 use App\Models\Referentiel;
 use App\Models\Type;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -40,7 +41,7 @@ class JsController extends Controller
         return( [
             'formations'=>Formation::all(),
             'types'=>$counts,
-            'candidats' =>Candidat::all(),
+            'candidats' =>User::all(),
 
         ]);
     }
@@ -95,9 +96,16 @@ class JsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($id , $user_id)
     {
-        //
+        $f = Formation::find($id);
+        $u = User::find($user_id);
+        $u->formations()->attach($f->id);
+
+        return 1 ;
+
+
+        
     }
 
     /**

@@ -10,22 +10,30 @@
 
     <title>Gestion de candidature</title>
 </head>
+<?php 
+if (Auth::check()) {
+  $role = Auth::user()->role;
+} 
+?>
 
 <body class="bg-dark">
 
 
 	<nav class="navbar navbar-expand-sm navbar-light  navbar-inverse navbar-fixed-top" style="z-index: 1;position: fixed;top: 0;left: 0;width: 100%;" id="neubar">
 
-       
+    <form action="{{ route('logout') }}" method="POST">
+      @csrf
+      <button class="btn btn-warning" type="submit">Se deconnecter</button>
+  </form>
+  @if ($role==1)
+    
           <div class=" collapse navbar-collapse justify-content-center" id="navbarNavDropdown">
             <ul class="navbar-nav ms-auto ">
               <li class="nav-item">
-                <a  id="un" class="nav-link mx-2 active " aria-current="page" href="{{route('accueil')}}">Accueil</a>
+                <a  id="un" class="nav-link mx-2 active " aria-current="page" href="{{route('fcs.index')}}">Accueil</a>
               </li>
 
-              <li class="nav-item">
-                <a id="deux" class="nav-link mx-2 active" aria-current="page" href="{{route('candidats.index')}}">Candidat</a>
-              </li>
+
 
               <div class="dropdown " id="trois">
                 <button class="btn btn-warning  dropdown-toggle nav-link mx-2 active" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -41,6 +49,17 @@
 
             </ul>
           </div>
+          @else
+          <div class=" collapse navbar-collapse justify-content-center" id="navbarNavDropdown">
+            <ul class="navbar-nav ms-auto ">
+              <li class="nav-item">
+                <a  id="un" class="nav-link mx-2 active " aria-current="page" href="{{route('fcs.index')}}">Accueil</a>
+              </li>
+            </ul>
+          </div>
+
+          @endif
+
       </nav>
 
 

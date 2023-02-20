@@ -18,9 +18,15 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'prenom',
+        'nom',
         'email',
         'password',
+        'role', 
+        "age",
+        "niveauEtude",
+        "sexe"
+
     ];
 
     /**
@@ -41,4 +47,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected $attributes = [
+        'role' => 0, // <-- 0 pour un utilisateur normal, 1 pour un administrateur
+    ];
+
+    public function formations(){
+        return $this->belongsToMany(Formation::class, 'user_formation');
+    }
+    
 }

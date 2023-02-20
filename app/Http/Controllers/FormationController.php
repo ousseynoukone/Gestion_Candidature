@@ -153,12 +153,11 @@ class FormationController extends Controller
     {
 
         $form = Formation::find($formation);
-        $candidat = $form->candidats()->get();
+     //   $candidat = $form->candidats()->get();
       //  $form->candidats()->delete();
       //  $candidat->each->delete();
-        $form->candidats()->detach();     
+        $form->users()->detach();     
         $form->delete();
-
 
         toastr()->warning('Suppression effectuée !');
         return redirect()->route('formations.index');

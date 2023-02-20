@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Candidat;
+use App\Models\User;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -75,7 +76,7 @@ class CandidatController extends Controller
      */
     public function edit($candidat)
     {  
-        $c = Candidat::find($candidat);        
+        $c = User::find($candidat);        
 
         return view('Candidat.crudCandidat.candidatsedit',compact('c'));
     }
@@ -89,13 +90,13 @@ class CandidatController extends Controller
      */
     public function update($candidat , Request $request)
     {
-      $c = Candidat::find($candidat);
+      $c = User::find($candidat);
 
       $c->update($request->all());
 
       toastr()->success('Enregistrement réussi ! ');
 
-     return redirect()->route('candidats.index');
+     return redirect()->route('fcs.index');
     }
 
     /**
@@ -107,11 +108,10 @@ class CandidatController extends Controller
     public function destroy($candidat)
     {
 
-    $c = Candidat::find($candidat);
+    $c = User::find($candidat);
 
     foreach ($c->formations as  $f) {
-        if(count($f->candidats)==1){
-
+        if(count($f->users)==1){
             $f->isStarted = false;
             $f->save();
 
@@ -122,7 +122,7 @@ class CandidatController extends Controller
     $c->delete();
     toastr()->warning('Suppression effectuée !');
 
-    return redirect()->route('candidats.index');
+    return redirect()->route('fcs.index');
 
 
 

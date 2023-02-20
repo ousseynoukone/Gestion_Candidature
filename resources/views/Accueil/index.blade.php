@@ -2,17 +2,65 @@
 @section('content1')
 
 
+ <!-- Button trigger modal -->
+ <button type="button" hidden id="toggle" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header alert alert-danger">
+        <h5 class="modal-title " id="exampleModalLabel">Confirmez vous la suppression ?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body alert alert-warning text-center">
+        La supression sera irreversible ! 
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="non" class="btn btn-success alert alert-primary" data-dismiss="modal">Non</button>
+        <button type="button" id="oui" class="btn btn-danger alert alert-warning">Oui</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
 <div class="main-container  d-flex">
   <div class="sidebar" id="sidebar">
 
+    <?php 
+    $check = 0 ;
+    if (Auth::check()) {
+      $nom = Auth::user()->nom;
+      $prenom = Auth::user()->prenom;
+      $user_id = Auth::user()->id;
+      $role = Auth::user()->role;
+    } 
+    ?>
+
+    <input hidden value="{{$role}}"  id="role" type="text">
+
     <div class="header-box">
-      <h4 class="fs-4" > <span style="background-color:#ddc1a0 " class=" text-dark rounded shadow px-2 me-2">OK</span><span  class="text-white h4"> Ousseynou Kone</span>  </h4>
+      <h4 class="fs-4" >  <span style="background-color:#ddc1a0" class=" text-dark rounded shadow px-2 me-2 ">Bienvenue</span> <br><br><span  class="text-white h5 " style="padding-top: 10em"> {{$prenom.' '.$nom}}</span>  </h4>
+      <hr style="background-color: white ; ">
+
     </div>
+@if ($role==1)
+  
 
     <div class="row">
-      <div class="col-12 mt-4">
+      <div class="col-12 mt-1">
         <div class="list-group" id="list-tab" role="tablist">
-          <a  class="list-group-item list-group-item-action active" id="list-home" onclick="load0()"  data-toggle="list" href="#list-home" role="tab" aria-controls="home">Former les formations</a>
+          <a  class="list-group-item list-group-item-action active" id="list-home" onclick="load0()"  data-toggle="list" href="#list-home" role="tab" aria-controls="home">Les candidats</a>
           <a class="list-group-item list-group-item-action" id="list-profile" onclick="load1()" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Valider les formations</a>
           <a class="list-group-item list-group-item-action" id="list-messages" onclick="load2()" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages">Statistiques</a>
         </div>
@@ -20,45 +68,64 @@
 
     </div>  
 
-    <hr class="h-color mx-3">
   </div>
 
     <div class="container mt-5" id="addFormation"    >
-
-
-      @if(count($tabAll['candidats'])!=0)
-<div class="card-header bg-white  text-center">Liste des Candidats</div>
-<table class="table table-dark">
-  <thead>
-        <tr>
-          <th scope="col">#Id</th>
-          <th scope="col">Nom</th>
-          <th scope="col">Prenom</th>
-          <th scope="col">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-
-        @foreach ($tabAll['candidats'] as $c )
-          
-        <tr>
-          <td>{{$c->id}}</td>
-          <td>{{$c->nom}}</td>
-          <td>{{$c->prenom}}</td>
-          <td>                        
-            <a class="btn text-white bg-dark"    onclick="ajoutFormation({{$c->id}})">   Ajouter a une formation  </a>      
+      <div class="card-header bg-white text-center">Liste des candidats</div>
+      <table class="table  text-dark" style="background-color:#ddc1a0 ">
+        <thead>
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Nom </th>
+            <th scope="col">Prenom</th>
+            <th scope="col">Email</th>
+            <th scope="col">age</th>
+            <th scope="col">Niveau d'etude</th>
+            <th scope="col">Sexe</th>
+            <th scope="col">Action</th>
+      
+          </tr>
+        </thead>
+        <tbody>
+        @if(count($tabAll['users'])>1 )
+          @foreach ($tabAll['users'] as $candidat )
+            
+         @if($candidat->role!=1)
+          <tr>
+            
+            <th scope="row">{{$candidat->id}}</th>
+            <td>{{$candidat->nom}}</td>
+            <td>{{$candidat->prenom}}</td>
+            <td>{{$candidat->email}}</td>
+            <td>{{$candidat->age}}</td>
+            <td>{{$candidat->niveauEtude}}</td>
+            <td>{{$candidat->sexe}}</td>
+            <td>            
+              <a class="btn btn-sm" href="{{route('candidats.edit',['candidat'=>$candidat->id])}}">  <img class="mr-3"  src="{{asset('img/edit.png') }}" height="20" alt=" edit img">  </a>
+      
+              <form method="POST" action="{{ route('candidats.destroy',['candidat'=>$candidat->id]) }}" accept-charset="UTF-8" style="display:inline">
+                  {{ method_field('DELETE') }}
+                  {{ csrf_field() }}
+                  <button type="submit" onclick="confirmation(event)" class="btn btn-sm" href="" style="background-color:transparent" > <img src="{{asset('img/remove.png') }}" height="20" alt=" remove img"> </button>
+              </form>
           </td>
-        </tr>
-
-        @endforeach
-
-      </tbody>
-    </table>
-@else
-<h4 class="card-header bg-white text-center">Il n'y a pas de candidat</h4>
-@endif
-
-
+      
+       
+      
+      
+          </tr>
+          @endif
+          @endforeach
+          @else 
+          <p class="text-center mt-3 bg-warning ">Il n'y a pas de candidat . </p>
+          @endif
+      
+      
+      
+      
+      
+        </tbody>
+      </table>
      
 </div>
 <div class="container ml-4"   hidden id="parametrerFormation">
@@ -93,7 +160,7 @@
                         <td>En cours...</td>
                         @endif
                         <td>
-                          @if (count($formation->candidats)!=0)
+                          @if (count($formation->users)!=0)
                           <div class="form-check">
                             <input class="btn btn-secondary" value="Démarrer ou arreter la formation" onclick="updateForm({{$formation->id}})" class="form-check-input" type="button" value="" >
                  
@@ -212,7 +279,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      @foreach ($formation->candidats as $candidat)
+                      @foreach ($formation->users as $candidat)
                       <tr>
                         <td>{{$candidat->id}}</td>
                         <td>{{$candidat->nom}}</td>
@@ -277,7 +344,7 @@
                       <td>En cours...</td>
                       @endif
                       <td>
-                        @if (count($formation->candidats)!=0)
+                        @if (count($formation->users)!=0)
                         <div class="form-check">
                           <input class="btn btn-secondary" value="Démarrer ou arreter la formation" onclick="updateForm({{$formation->id}})" class="form-check-input" type="button" value="" >
                
@@ -298,10 +365,10 @@
                 </table>
 
               </div>
-@if (count($formation->candidats)!=0)
+@if (count($formation->users)!=0)
   
 
-              @foreach ($formation->candidats as $index =>$candidat)
+              @foreach ($formation->users as $index =>$candidat)
               <?php
                $val = $index+1 
                  ?>
@@ -541,7 +608,7 @@ function updateForm(id){
         url: "formations/update/"+id,
 
         success: function(data){
-          window.location.replace("/");
+          window.location.replace("/fcs");
 
         }
       })
@@ -556,7 +623,7 @@ function updateRef(id){
         url: "referentiels/update/"+id,
 
         success: function(data){
-          window.location.replace("/");
+          window.location.replace("/fcs");
 
         }
       })
@@ -672,7 +739,17 @@ function graphique(data) {
   const charBar2 = document.getElementById("graphique2");
   const charBar3 = document.getElementById("graphique3");
   const charBar4 = document.getElementById("graphique4");
-  const candidat = data['candidats']
+  //const role =  document.getElementById("role").value
+
+   candidat = data['candidats']
+//enlever l'admin
+ candidat = candidat.filter(c => c.role !== 1);
+
+
+
+
+
+
   const formationParType = data['types']
   const formation = data['formations']
 
@@ -896,5 +973,120 @@ if (charBar4) {
 
 
 </script>
+
+
+
+@else
+</div>
+</div>
+
+<div class="col-md-12">
+
+  <div class="container mt-5 " >
+      <div class="card" style="background-color:#ddc1a0 ">
+          
+
+        <div class="card-header bg-dark text-white text-center mt-2 ">Liste des formations</div>
+  <table class="table  text-dark" style="background-color:#ddc1a0 ">
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Nom</th>
+        <th scope="col">Durée</th>
+        <th scope="col">Description</th>
+
+        <th scope="col">Etat</th>
+
+        <th scope="col">Date de debut</th>
+        <th scope="col">Action</th>
+  
+      </tr>
+    </thead>
+    <tbody>
+    @if(count($tabAll['formations'])!=0 )
+      @foreach ($tabAll['formations'] as $formation )
+        
+     
+      <tr>
+        
+        <th scope="row">{{$formation->id}}</th>
+        <td>{{$formation->nom}}</td>
+        <td>{{$formation->duree}} h</td>
+        <td>{{$formation->description}}</td>
+
+        @if($formation->isStarted==0)
+        <td>En attente</td>
+        @else
+        <td>En cours</td>
+        @endif
+
+        <td>{{$formation->date_debut}}</td>
+        <td> 
+        
+          @foreach ($formation->users as $u )
+          @if ($u->id==$user_id)
+           <?php $check=1 ; ?>
+           @endif
+           @endforeach           
+          @if ($check==0)
+          <a class="btn btn-sm text-white btn-danger"  onclick="choisir({{$formation->id}},{{$user_id}})"> Choisir </a>
+          
+          @else         
+           <a class="btn btn-sm text-white btn-danger" > Formation deja choisie !   </a>
+           <?php   
+                $check = 0;
+           
+           ?>
+           @endif
+
+            
+
+      </td>
+  
+   
+  
+  
+      </tr>
+      @endforeach
+      @else 
+      <p class="text-center mt-3">Il n'y a pas de formation . </p>
+      @endif
+  
+  
+  
+  
+  
+    </tbody>
+  </table>
+
+  
+
+
+  
+  </div>
+  
+  </div>
+  
+  
+</div>
+<script>
+  function choisir(id,user_id) {
+
+    $.ajax({
+  url: "jscontroller/" + id+"/"+user_id,
+  type: 'get',
+  dataType: 'json',
+  success: function(data) {
+alert('Formation intégrée ! ')
+window.location.replace("/fcs");
+
+  }
+
+
+    })
+    
+  }
+</script>
+@endif
 
 @endsection
